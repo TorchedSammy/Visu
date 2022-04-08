@@ -49,10 +49,11 @@ function RootView:draw(...)
 	local w = 10 * SCALE
 	local bars = getLatestInfo()
 	if bars ~= nil then
+		core.redraw = true
 		for i = 1, barsNumber do
 			core.log_quiet(tostring(bars[i]))
 			local h = (bars[i] * 80) * SCALE
-			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (2 * SCALE), w, h, style.normal)
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (2 * SCALE), w, h, style.text)
 		end
 	end
 end
