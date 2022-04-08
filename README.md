@@ -1,7 +1,7 @@
 # Visu
-> Audio visualizer for Lite XL.
+> 📊 Audio visualizer for [Lite XL](https://lite-xl.com) 🎶
 
-This is a little demo audio visualizer for the Lite XL. You don't want this (yet),
+This is a little demo audio visualizer for Lite XL. You don't want this (yet),
 there's quite a few (2) problems.
 
 # Installation
