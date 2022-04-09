@@ -29,13 +29,13 @@ bit_format = %s
 
 local cavaConf = confFormat:format(conf.barsNumber, '/dev/stdout', '16bit')
 local tmp = core.temp_filename('cavaconf', '/tmp')
-
 do
-	local f <close> = io.open(tmp, 'w')
+	local f = io.open(tmp, 'w')
 	f:write(cavaConf)
+	f:close()
 end
-local proc = process.start {'cava', '-p', tmp}
 
+local proc = process.start {'cava', '-p', tmp}
 
 local chunkSize = 2 * conf.barsNumber
 local byteFormat = 'H'
