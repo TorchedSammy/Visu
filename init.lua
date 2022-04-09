@@ -1,5 +1,6 @@
 -- mod-version:2 -- lite-xl 2.0
 local core = require 'core'
+local common = require 'core.common'
 local config = require 'core.config'
 local style = require 'core.style'
 local RootView = require 'core.rootview'
@@ -14,7 +15,8 @@ local function merge(orig, tbl)
 end
 
 local conf = merge({
-	barsNumber = 12
+	barsNumber = 12,
+	color = {common.color 'rgba(255, 255, 255, 1)'}
 }, config.plugins.visu)
 
 local confFormat = [[
@@ -84,7 +86,7 @@ function RootView:draw(...)
 		core.redraw = true
 		for i = 1, conf.barsNumber do
 			local h = ((b[i] * 239) + 1) * SCALE
-			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, style.text)
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, conf.color)
 		end
 	end
 end
