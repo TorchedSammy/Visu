@@ -1,9 +1,22 @@
 -- mod-version:2 -- lite-xl 2.0
 local core = require 'core'
+local config = require 'core.config'
 local style = require 'core.style'
 local RootView = require 'core.rootview'
 
-local barsNumber = 32
+local function merge(orig, tbl)
+	if tbl == nil then return orig end
+	for k, v in pairs(tbl) do
+		orig[k] = v
+	end
+
+	return orig
+end
+
+local conf = merge({
+	barsNumber = 12
+}, config.plugins.visu)
+
 local confFormat = [[
 [general]
 bars = %d
@@ -14,7 +27,7 @@ raw_target = %s
 bit_format = %s
 ]]
 
-local cavaConf = confFormat:format(barsNumber, '/dev/stdout', '16bit')
+local cavaConf = confFormat:format(conf.barsNumber, '/dev/stdout', '16bit')
 local tmp = core.temp_filename('cavaconf', '/tmp')
 
 do
@@ -24,14 +37,14 @@ end
 local proc = process.start {'cava', '-p', tmp}
 
 
-local chunkSize = 2 * barsNumber
+local chunkSize = 2 * conf.barsNumber
 local byteFormat = 'H'
 local byteMax = 65535
 
 local function getLatestInfo()
 	local data = proc:read_stdout(chunkSize)
 	if data:len() < chunkSize then return nil end
-	local fmt = byteFormat:rep(barsNumber)
+	local fmt = byteFormat:rep(conf.barsNumber)
 	local bars = table.pack(string.unpack(fmt, data))
 
 	for i, b in ipairs(bars) do
@@ -69,7 +82,7 @@ function RootView:draw(...)
 	end
 	if b ~= nil then
 		core.redraw = true
-		for i = 1, barsNumber do
+		for i = 1, conf.barsNumber do
 			local h = ((b[i] * 239) + 1) * SCALE
 			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, style.text)
 		end
