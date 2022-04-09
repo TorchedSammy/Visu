@@ -40,6 +40,20 @@ local function getLatestInfo()
 
 	return bars
 end
+local b = getLatestInfo()
+
+for _ = 1, 180 do
+core.add_thread(function()
+	while true do
+		local bn = getLatestInfo()
+		if bn ~= nil then
+			b = bn
+			core.log_quiet(b[1])
+		end
+		coroutine.yield(0)
+	end
+end)
+end
 
 local rvDraw = RootView.draw
 function RootView:draw(...)
@@ -47,13 +61,17 @@ function RootView:draw(...)
 
 	if core.active_view == core.command_view then return end
 	local w = 10 * SCALE
-	local bars = getLatestInfo()
-	if bars ~= nil then
+
+	local bn = getLatestInfo()
+	if bn ~= nil then
+		b = bn
+		core.log_quiet(b[1])
+	end
+	if b ~= nil then
 		core.redraw = true
 		for i = 1, barsNumber do
-			core.log_quiet(tostring(bars[i]))
-			local h = (bars[i] * 79) + 1 * SCALE
-			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (2 * SCALE), w, h, style.text)
+			local h = ((b[i] * 239) + 1) * SCALE
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, style.text)
 		end
 	end
 end
