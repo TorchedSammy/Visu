@@ -2,7 +2,6 @@
 local core = require 'core'
 local common = require 'core.common'
 local config = require 'core.config'
-local style = require 'core.style'
 local RootView = require 'core.rootview'
 
 local function merge(orig, tbl)
@@ -16,7 +15,8 @@ end
 
 local conf = merge({
 	barsNumber = 12,
-	color = {common.color 'rgba(255, 255, 255, 1)'}
+	color = {common.color 'rgba(255, 255, 255, 1)'},
+	workers = 180
 }, config.plugins.visu)
 
 local confFormat = [[
@@ -57,7 +57,7 @@ local function getLatestInfo()
 end
 local b = getLatestInfo()
 
-for _ = 1, 180 do
+for _ = 1, conf.workers do
 core.add_thread(function()
 	while true do
 		local bn = getLatestInfo()
@@ -86,7 +86,13 @@ function RootView:draw(...)
 		core.redraw = true
 		for i = 1, conf.barsNumber do
 			local h = ((b[i] * 239) + 1) * SCALE
+			-- y = self.size.y - core.status_view.size.y
 			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, conf.color)
+			--[[
+			-- dual in the middle
+			renderer.draw_rect(self.size.x - (30 * i), (self.size.y / 2), w, h / 2, conf.color)
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y / 2 - h / 2, w, h / 2, conf.color)
+			]]--
 		end
 	end
 end
