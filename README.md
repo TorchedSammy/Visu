@@ -7,8 +7,9 @@ It takes a lot of CPU, so beware.
 https://user-images.githubusercontent.com/38820196/162533702-f00bcd71-ced4-494d-a40c-2d84b999f79e.mp4
 
 # Installation
-But if you still want it anyway, just git clone into your plugins folder.
-Requires `cava` and does not work on Windows.
+You can simply git clone this repo in your plugins folder,
+or download `init.lua` and rename it to `visu.lua`.  
+Requires `cava`, not tested on Windows.
 
 # Config
 There are a few options to customize Visu.
