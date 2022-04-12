@@ -24,7 +24,9 @@ config.plugins.visu = {
 	color = {common.color 'rgba(255, 255, 255, 1)'},
 	-- number of threads to make to get visualizer info. higher the better for
 	-- the visualizer, lower for general performance.
-	workers = 180
+	workers = 180,
+	-- if visualizer is hidden or shown
+	hidden = false
 }
 ```
 

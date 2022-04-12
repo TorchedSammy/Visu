@@ -1,6 +1,7 @@
 -- mod-version:2 -- lite-xl 2.0
 local core = require 'core'
 local common = require 'core.common'
+local command = require 'core.command'
 local config = require 'core.config'
 local RootView = require 'core.rootview'
 
@@ -16,9 +17,11 @@ end
 local conf = merge({
 	barsNumber = 12,
 	color = {common.color 'rgba(255, 255, 255, 1)'},
-	workers = 180
+	workers = 180,
+	hidden = false
 }, config.plugins.visu)
 
+local hidden = conf.hidden
 local confFormat = [[
 [general]
 bars = %d
@@ -73,6 +76,7 @@ end
 local rvDraw = RootView.draw
 function RootView:draw(...)
 	rvDraw(self, ...)
+	if hidden then return end
 
 	if core.active_view == core.command_view then return end
 	local w = 10 * SCALE
@@ -96,3 +100,8 @@ function RootView:draw(...)
 		end
 	end
 end
+
+command.add(nil, {
+	['visu:hide'] = function() hidden = true end,
+	['visu:show'] = function() hidden = false end,
+})
