@@ -2,6 +2,7 @@
 local core = require 'core'
 local common = require 'core.common'
 local command = require 'core.command'
+local style = require 'core.style'
 local config = require 'core.config'
 local RootView = require 'core.rootview'
 
@@ -16,10 +17,13 @@ end
 
 local conf = merge({
 	barsNumber = 12,
-	color = {common.color 'rgba(255, 255, 255, 1)'},
 	workers = 180,
 	hidden = false
 }, config.plugins.visu)
+
+local styl = merge({
+	bars = {common.color 'rgba(255, 255, 255, 1)'}
+}, style.visu)
 
 local hidden = conf.hidden
 local confFormat = [[
@@ -91,11 +95,11 @@ function RootView:draw(...)
 		for i = 1, conf.barsNumber do
 			local h = ((b[i] * 239) + 1) * SCALE
 			-- y = self.size.y - core.status_view.size.y
-			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, conf.color)
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y - core.status_view.size.y - h - (5 * SCALE), w, h, styl.bars)
 			--[[
 			-- dual in the middle
-			renderer.draw_rect(self.size.x - (30 * i), (self.size.y / 2), w, h / 2, conf.color)
-			renderer.draw_rect(self.size.x - (30 * i), self.size.y / 2 - h / 2, w, h / 2, conf.color)
+			renderer.draw_rect(self.size.x - (30 * i), (self.size.y / 2), w, h / 2, styl.bars)
+			renderer.draw_rect(self.size.x - (30 * i), self.size.y / 2 - h / 2, w, h / 2, styl.bars)
 			]]--
 		end
 	end
