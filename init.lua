@@ -70,7 +70,6 @@ core.add_thread(function()
 		local bn = getLatestInfo()
 		if bn ~= nil then
 			b = bn
-			core.log_quiet(b[1])
 		end
 		coroutine.yield(0)
 	end
@@ -88,7 +87,6 @@ function RootView:draw(...)
 	local bn = getLatestInfo()
 	if bn ~= nil then
 		b = bn
-		core.log_quiet(b[1])
 	end
 	if b ~= nil then
 		core.redraw = true
